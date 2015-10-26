@@ -53,8 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpressionVisitor.cs" />
     <Compile Include="JournalItemsContext.cs" />
     <Compile Include="JournalItemsProvider.cs" />
+    <Compile Include="PredicateInspector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UAutoContractJournalItem.cs" />

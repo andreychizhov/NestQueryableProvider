@@ -32,15 +32,17 @@ namespace LinqToNestDemo
                 From = 0,
                 Size = 10,
                 Query = query
-
             };
 
 
             var searchResult = client.Search<UAutoContractJournalItem>(searchRequest);
 
-            //Console.WriteLine(Encoding.UTF8.GetString(searchResult.RequestInformation.Request));
+            var context = new JournalItemsContext(node);
+            System.Linq.Expressions.Expression<Func<UAutoContractJournalItem, bool>> filter = item => item.EmployeeName.Contains("Иванов");
+            var items = context.Where(filter);
 
-            Console.WriteLine("{0} was found (OIS)", searchResult.Total);
+
+            Console.WriteLine("{0} was found (OIS)", items.ToArray().Length);
             Console.ReadLine();
         }
     }
