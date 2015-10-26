@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinqToNestDemo
 {
-    public class JournalItemsQueryContext
+    internal sealed class JournalItemsQueryContext
     {
         internal static object Execute(Expression expression, Uri node)
         {

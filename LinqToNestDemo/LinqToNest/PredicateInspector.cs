@@ -9,13 +9,6 @@ namespace LinqToNestDemo
         private string _term;
         private string _fieldName;
 
-        //public PredicateInspector()
-        //{
-
-        //    //_container = new MatchQuery();
-        //    //_request = new SearchRequest();
-        //}
-
         protected override Expression VisitMemberAccess(MemberExpression m)
         {
             _fieldName = m.Member.Name;

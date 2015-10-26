@@ -1,4 +1,4 @@
-﻿using ODataWithElasticDemo.Models;
+﻿using LinqToNestDemo;
 using System.Web.Http;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
