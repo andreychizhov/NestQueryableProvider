@@ -13,32 +13,8 @@ namespace LinqToNestDemo
         {
             var node = new Uri("http://devpro.ugsk.ru:9200");
 
-            var settings = new ConnectionSettings(
-                node,
-                defaultIndex: "uauto");
-
-
-            var client = new ElasticClient(settings);
-
-            QueryContainer query = new MatchQuery
-            {
-                Field = "insuredLastName",
-                Query = "Иванов"
-            };
-
-
-            var searchRequest = new SearchRequest
-            {
-                From = 0,
-                Size = 10,
-                Query = query
-            };
-
-
-            var searchResult = client.Search<UAutoContractJournalItem>(searchRequest);
-
             var context = new JournalItemsContext(node);
-            System.Linq.Expressions.Expression<Func<UAutoContractJournalItem, bool>> filter = item => item.EmployeeName.Contains("Иванов");
+            System.Linq.Expressions.Expression<Func<UAutoContractJournalItem, bool>> filter = item => item.EmployeeName.StartsWith("Иванов");
             var items = context.Where(filter);
 
 

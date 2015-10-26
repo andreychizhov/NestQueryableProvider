@@ -8,9 +8,11 @@ namespace LinqToNestDemo
 {
     class JournalItemsProvider : IQueryProvider
     {
+        private readonly Uri _node;
+
         public JournalItemsProvider(Uri node)
         {
-
+            _node = node;
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(System.Linq.Expressions.Expression expression)
@@ -25,7 +27,7 @@ namespace LinqToNestDemo
 
         public TResult Execute<TResult>(System.Linq.Expressions.Expression expression)
         {
-            var isEnumerable = (typeof(TResult).Name == "IEnumerable`1");
+            return (TResult)JournalItemsQueryContext.Execute(expression, _node);
         }
 
         public object Execute(System.Linq.Expressions.Expression expression)
