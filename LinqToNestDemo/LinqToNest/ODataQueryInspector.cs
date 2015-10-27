@@ -27,12 +27,6 @@ namespace LinqToNest
 
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
-            //switch (m.Method.Name)
-            //{
-            //    case "Where":
-            //        VisitLambda()
-            //        break;
-            //}
             if (m.Method.Name.Equals("StartsWith"))
             {
                 if (m.Arguments[0].NodeType == ExpressionType.Constant)
@@ -43,19 +37,6 @@ namespace LinqToNest
 
             return base.VisitMethodCall(m);
         }
-
-        //protected override Expression VisitConstant(ConstantExpression c)
-        //{
-        //    ////if (m.Arguments[0].NodeType == ExpressionType.Constant)
-        //    //{
-        //        dynamic arg = c.Value;
-        //        if (c.Value == null || arg.ToString().Contains("Nest")) return base.VisitConstant(c);
-        //        string val = arg.TypedProperty as string;
-        //        if (val != null)
-        //            _term = val;//((ConstantExpression)m.Arguments[0]).Value as String;
-        //    //}
-        //    return base.VisitConstant(c);
-        //}
 
         internal SearchRequest CreateRequestFromExpression(Expression expression)
         {

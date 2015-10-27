@@ -14,13 +14,12 @@ namespace LinqToNestDemo
             var node = new Uri("http://devpro.ugsk.ru:9200");
 
             var context = new JournalItemsContext<UAutoContractJournalItem>(node);
-            System.Linq.Expressions.Expression<Func<UAutoContractJournalItem, bool>> filter = item => item.EmployeeName.StartsWith("Иванов");
-            var items = context.Where(filter);
 
+            var items = context.Where(item => item.EmployeeName.StartsWith("Иванов"));
 
             foreach (var item in items)
             {
-                Console.WriteLine(item.EmployeeFilialName);
+                Console.WriteLine(item.EmployeeName);
             }
             Console.WriteLine("{0} was found (OIS)", items.ToArray().Length);
             Console.ReadLine();
