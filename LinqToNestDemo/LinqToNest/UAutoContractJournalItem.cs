@@ -1,4 +1,4 @@
-namespace LinqToNestDemo
+namespace LinqToNest
 {
     using System;
     using System.Collections.Generic;

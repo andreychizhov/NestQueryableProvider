@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace LinqToNestDemo
+namespace LinqToNest
 {
     class JournalItemsProvider : IQueryProvider
     {
@@ -17,22 +17,24 @@ namespace LinqToNestDemo
 
         public IQueryable<TElement> CreateQuery<TElement>(System.Linq.Expressions.Expression expression)
         {
-            return (IQueryable<TElement>) new JournalItemsContext(this, expression);
+            return (IQueryable<TElement>) new JournalItemsContext<UAutoContractJournalItem>(this, expression);
         }
 
         public IQueryable CreateQuery(Expression expression)
         {
-            return new JournalItemsContext(this, expression);
+            return new JournalItemsContext<UAutoContractJournalItem>(this, expression);
         }
 
         public TResult Execute<TResult>(System.Linq.Expressions.Expression expression)
         {
-            return (TResult)JournalItemsQueryContext.Execute(expression, _node);
+            bool IsEnumerable = (typeof(TResult).Name == "IEnumerable`1");
+
+            return (TResult)JournalItemsQueryContext.Execute(expression, _node, IsEnumerable);
         }
 
         public object Execute(System.Linq.Expressions.Expression expression)
         {
-            return Execute<UAutoContractJournalItem>(expression);
+            return JournalItemsQueryContext.Execute(expression, _node, false);
         }
     }
 }

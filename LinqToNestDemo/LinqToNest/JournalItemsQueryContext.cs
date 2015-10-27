@@ -6,21 +6,28 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinqToNestDemo
+namespace LinqToNest
 {
     internal sealed class JournalItemsQueryContext
     {
-        internal static object Execute(Expression expression, Uri node)
+        internal static object Execute(Expression expression, Uri node, bool isEnumerable)
         {
-            var inspector = new PredicateInspector();
+            var inspector = new ODataQueryInspector();
 
             SearchRequest sr = inspector.CreateRequestFromExpression(expression);
 
-            return GetJournalItemsFromElastic(node, sr);
-            
+            IQueryable<UAutoContractJournalItem> records = GetJournalItemsFromElastic(node, sr);
+
+            ExpressionTreeModifier treeCopier = new ExpressionTreeModifier(records);
+            Expression newExpressionTree = treeCopier.Visit(expression);
+
+            if (isEnumerable)
+                return records.Provider.CreateQuery(newExpressionTree);
+            else
+                return records.Provider.Execute(newExpressionTree);
         }
 
-        internal static IEnumerable<UAutoContractJournalItem> GetJournalItemsFromElastic(Uri node, SearchRequest request)
+        internal static IQueryable<UAutoContractJournalItem> GetJournalItemsFromElastic(Uri node, SearchRequest request)
         {
             var settings = new ConnectionSettings(
                 node,
@@ -32,7 +39,7 @@ namespace LinqToNestDemo
 
             var searchResult = client.Search<UAutoContractJournalItem>(request);
 
-            return searchResult.Documents;
+            return searchResult.Documents.AsQueryable();
         }
     }
 }
